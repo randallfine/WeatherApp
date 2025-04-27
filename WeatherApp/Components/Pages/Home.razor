@@ -5,3 +5,28 @@
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
+@page "/"
+@inject WeatherService WeatherService
+
+<h1>Weather App</h1>
+
+<input @bind="city" placeholder="Enter city" />
+<button @onclick="GetWeather">Get Weather</button>
+
+@if (weather != null)
+{
+    <div>
+        <p>Temperature: @weather.Current.TempC °C</p>
+        <p>Condition: @weather.Current.Condition.Text</p>
+    </div>
+}
+
+@code {
+    private string city;
+    private WeatherResponse weather;
+
+    private async Task GetWeather()
+    {
+        weather = await WeatherService.GetWeatherAsync(city);
+    }
+}
